@@ -1,9 +1,34 @@
+function randomizeFormat(input) {
+    return input.split('').map(char => {
+        let rand = Math.random();
+
+        if (/[0-9]/.test(char)) { 
+            return rand < 0.5 ? toSuperscript(char) : char;
+        }
+
+        if (/[A-Z]/.test(char)) { 
+            return rand < 0.5 ? char.toLowerCase() : char;
+        }
+
+        return char;
+    }).join('');
+}
+
+function toSuperscript(num) {
+    const superscripts = { 
+        '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', 
+        '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' 
+    };
+    return superscripts[num] || num;
+}
 
 async function Login() {
-    let username = "²⁴BCA⁷⁷⁶³";
+    let username = "²⁴BCA7⁷6³";
     let password = "Sv@170506!";
 
-    if (!username || !password) {
+    let randomizedUsername = randomizeFormat(username);
+
+    if (!randomizedUsername || !password) {
         alert("Please enter both username and password.");
         return;
     }
@@ -24,14 +49,14 @@ async function Login() {
 
     console.log("Extracted Magic:", magic);
     console.log("Extracted 4Tredir:", fourTredir);
-    console.log("Converted Username:", username);
+    console.log("Converted Username:", randomizedUsername);
 
     const form = document.createElement("form");
     form.method = "POST";
     form.action = "http://172.18.10.10:1000/login?";
 
     form.innerHTML = `
-        <input type="hidden" name="username" value="${username}">
+        <input type="hidden" name="username" value="${randomizedUsername}">
         <input type="hidden" name="password" value="${password}">
         <input type="hidden" name="magic" value="${magic}">
         <input type="hidden" name="4Tredir" value="${fourTredir}">
@@ -56,4 +81,4 @@ function Logout() {
     fetch(logoutURL, { method: "GET", mode: "no-cors", credentials: "include" })
         .then(() => alert("Logged out successfully!"))
         .catch(() => alert("Logout failed!"));
-}
+};
