@@ -23,8 +23,8 @@ function toSuperscript(num) {
 }
 
 async function Login() {
-    let username = "24BCA7763";
-    let password = "Sv@170506!";
+    let username = ""; //Write you Reg.No
+    let password = ""; //Write you Wifi Password
 
     let randomizedUsername = randomizeFormat(username);
 
